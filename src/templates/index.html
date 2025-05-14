@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UF Chatbot</title>
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById("message").value;
+      const res = await fetch("/chat", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({message: input})
+      });
+      const data = await res.json();
+      const chat = document.getElementById("chat");
+      chat.innerHTML += `<div><b>You:</b> ${input}</div>`;
+      chat.innerHTML += `<div><b>Bot:</b> ${data.response}</div>`;
+      document.getElementById("message").value = "";
+    }
+  </script>
+</head>
+<body>
+  <h1>UF Chatbot</h1>
+  <div id="chat" style="border:1px solid #ccc; padding:10px; height:300px; overflow-y:auto;"></div>
+  <input id="message" type="text" placeholder="Ask a question...">
+  <button onclick="sendMessage()">Send</button>
+</body>
+</html>
